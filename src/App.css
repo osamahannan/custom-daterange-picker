@@ -1,6 +1,8 @@
 .App {
   text-align: center;
-  width: 714px;
+  /* min-width: 714px;
+  max-width: 800px; */
+  width: fit-content;
   margin: 2rem auto;
 }
 

@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import { List, ListItemButton, ListItemText } from '@mui/material';
 import { isSameDay } from 'date-fns';
 import { DateRange, DefinedRange } from '../types';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
@@ -9,8 +9,7 @@ type DefinedRangesProps = {
   setRange: (range: DateRange) => void;
   selectedRange: DateRange;
   ranges: DefinedRange[];
-  labelLeftIcon?: ReactNode;
-  labelRightIcon?: ReactNode;
+  labelIcon?: ReactNode;
 };
 
 const isSameRange = (first: DateRange, second: DateRange) => {
@@ -26,8 +25,7 @@ const DefinedRanges: React.FunctionComponent<DefinedRangesProps> = ({
   ranges,
   setRange,
   selectedRange,
-  labelLeftIcon,
-  labelRightIcon = <KeyboardArrowRightIcon />
+  labelIcon = <KeyboardArrowRightIcon />
 }: DefinedRangesProps) => (
   <List>
     {ranges.map((range, idx) => (
@@ -54,16 +52,13 @@ const DefinedRanges: React.FunctionComponent<DefinedRangesProps> = ({
               textWrap: "nowrap",
               alignItems: "center",
               justifyContent: "space-between",
-              width: "100px"
+              minWidth: "100px"
             },
           }}
         >
-          {labelLeftIcon && isSameRange(range, selectedRange) && (
-            <>{labelLeftIcon}</>
-          )}
           {range.label}
-          {labelRightIcon && isSameRange(range, selectedRange) && (
-            <>{labelRightIcon}</>
+          {labelIcon && isSameRange(range, selectedRange) && (
+            <>{labelIcon}</>
           )}
         </ListItemText>
       </ListItemButton>
