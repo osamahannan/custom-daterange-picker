@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { List, ListItemButton, ListItemText } from '@mui/material';
 import { isSameDay } from 'date-fns';
-import { DateRange, DefinedRange } from '../types';
+import { CustomStyle, DateRange, DefinedRange } from '../types';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 type DefinedRangesProps = {
@@ -10,6 +10,7 @@ type DefinedRangesProps = {
   selectedRange: DateRange;
   ranges: DefinedRange[];
   labelIcon?: ReactNode;
+  customStyle?: CustomStyle
 };
 
 const isSameRange = (first: DateRange, second: DateRange) => {
@@ -25,21 +26,27 @@ const DefinedRanges: React.FunctionComponent<DefinedRangesProps> = ({
   ranges,
   setRange,
   selectedRange,
-  labelIcon = <KeyboardArrowRightIcon />
+  labelIcon = <KeyboardArrowRightIcon />,
+  customStyle
 }: DefinedRangesProps) => (
   <List>
     {ranges.map((range, idx) => (
       <ListItemButton
         key={idx}
         onClick={() => setRange(range)}
-        sx={[
-          isSameRange(range, selectedRange) && {
-            backgroundColor: (theme) => theme.palette.primary.dark,
-            color: 'primary.contrastText',
+        sx={{
+          backgroundColor: customStyle?.labelBgColor || "",
+          "&:hover": {
+            background: customStyle?.labelBgOnHover || ""
+          },
+          ...isSameRange(range, selectedRange) && {
+            backgroundColor: (theme) => customStyle?.activeLabelBgColor || theme.palette.primary.dark,
+            color: customStyle?.labelColor || 'primary.contrastText',
             '&:hover': {
               color: 'inherit'
-            }
-          }]}
+            },
+          }
+        }}
       >
         <ListItemText
           primaryTypographyProps={{

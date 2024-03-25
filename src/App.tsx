@@ -11,10 +11,14 @@ function App() {
 
   console.log("dateRange =", dateRange)
 
+  const cancelRangePicker = () => {
+    setOpen(false)
+  }
+
   return (
     <div className="App">
       <button onClick={() => setOpen(!open)}>Show Date Range</button>
-      <DateRangePickerExporter open={open} toggle={() => setOpen(!open)} onChange={(range: DateRange) => setDateRange(range)} />
+      <DateRangePickerExporter open={open} toggle={() => setOpen(!open)} onChange={(range: DateRange) => setDateRange(range)} onCancel={cancelRangePicker} />
     </div>
   );
 }

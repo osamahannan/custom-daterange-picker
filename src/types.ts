@@ -23,3 +23,12 @@ export type DefinedRange = {
   endDate: Date;
   label: string;
 };
+
+export interface CustomStyle {
+  labelColor?: string;
+  labelBgColor?: string;
+  activeLabelBgColor?: string;
+  labelBgOnHover?: string;
+  startDateBorderColor?: string;
+  endDateBorderColor?: string;
+}

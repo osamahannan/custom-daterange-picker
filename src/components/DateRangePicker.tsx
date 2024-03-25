@@ -2,7 +2,7 @@ import * as React from 'react';
 import {
   addMonths, addYears, isAfter, isBefore, isSameDay, isSameMonth, isWithinInterval, max, min,
 } from 'date-fns';
-import { DateRange, DefinedRange, NavigationAction } from '../types';
+import { CustomStyle, DateRange, DefinedRange, NavigationAction } from '../types';
 import { getValidatedMonths, parseOptionalDate } from '../utils';
 import { getDefaultRanges } from '../defaults';
 import Menu from './Menu';
@@ -17,6 +17,12 @@ interface DateRangePickerProps {
   // eslint-disable-next-line no-unused-vars
   onChange: (dateRange: DateRange) => void;
   locale?: Locale;
+  labelIcon?: React.ReactNode;
+  onSave?: () => void;
+  onCancel?: () => void;
+  customStyle?: CustomStyle;
+  showConfirmSection?: boolean;
+  showBorderedDate?: boolean;
 }
 
 const DateRangePicker: React.FunctionComponent<DateRangePickerProps> = (
@@ -32,6 +38,12 @@ const DateRangePicker: React.FunctionComponent<DateRangePickerProps> = (
     maxDate,
     definedRanges = getDefaultRanges(new Date(), props.locale),
     locale,
+    labelIcon,
+    onSave,
+    onCancel,
+    customStyle,
+    showConfirmSection,
+    showBorderedDate
   } = props;
 
   const minDateValid = parseOptionalDate(minDate, addYears(today, -10));
@@ -147,6 +159,12 @@ const DateRangePicker: React.FunctionComponent<DateRangePickerProps> = (
       helpers={helpers}
       handlers={handlers}
       locale={locale}
+      labelIcon={labelIcon}
+      onSave={onSave}
+      onCancel={onCancel}
+      customStyle={customStyle}
+      showConfirmSection={showConfirmSection}
+      showBorderedDate={showBorderedDate}
     />
   ) : null;
 };
