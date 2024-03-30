@@ -18,7 +18,13 @@ function App() {
   return (
     <div className="App">
       <button onClick={() => setOpen(!open)}>Show Date Range</button>
-      <DateRangePickerExporter open={open} toggle={() => setOpen(!open)} onChange={(range: DateRange) => setDateRange(range)} onCancel={cancelRangePicker} />
+      <DateRangePickerExporter
+        open={open}
+        toggle={() => setOpen(!open)}
+        onChange={(range: DateRange) => setDateRange(range)}
+        onCancel={cancelRangePicker}
+        onSave={() => setOpen(!open)}
+      />
     </div>
   );
 }

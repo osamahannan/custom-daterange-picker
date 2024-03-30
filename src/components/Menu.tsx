@@ -1,19 +1,18 @@
 /* eslint-disable object-curly-newline */
-import React, { ReactNode } from 'react';
-import { Button, Divider, Grid, Paper, Typography } from '@mui/material';
-import { differenceInCalendarMonths, format } from 'date-fns';
-import ArrowRightAlt from '@mui/icons-material/ArrowRightAlt';
-import Month from './Month';
-// import DefinedRanges from './DefinedRanges';
+import React, { ReactNode } from "react";
+import { Button, Divider, Grid, Paper, Typography } from "@mui/material";
+import { differenceInCalendarMonths, format } from "date-fns";
+import ArrowRightAlt from "@mui/icons-material/ArrowRightAlt";
+import Month from "./Month";
 import {
   DateRange,
   DefinedRange,
   Setter,
   NavigationAction,
   CustomStyle,
-} from '../types';
-import { MARKERS } from './Markers';
-import DefinedRanges from './DefinedRanges';
+} from "../types";
+import { MARKERS } from "./Markers";
+import DefinedRanges from "./DefinedRanges";
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 
 interface MenuProps {
@@ -66,19 +65,24 @@ const Menu: React.FunctionComponent<MenuProps> = (props: MenuProps) => {
     onCancel,
     customStyle,
     showConfirmSection = true,
-    showBorderedDate = true
+    showBorderedDate = true,
   } = props;
 
   const { startDate, endDate } = dateRange;
-  const canNavigateCloser = differenceInCalendarMonths(secondMonth, firstMonth) >= 2;
+  const canNavigateCloser =
+    differenceInCalendarMonths(secondMonth, firstMonth) >= 2;
   const commonProps = {
-    dateRange, minDate, maxDate, helpers, handlers,
+    dateRange,
+    minDate,
+    maxDate,
+    helpers,
+    handlers,
   };
   return (
-    <Paper elevation={5} square>
+    <Paper elevation={5}>
       <Grid>
         <Grid container direction="row" wrap="nowrap">
-          <Grid>
+          <Grid minWidth="176px" maxHeight={425} overflow="auto">
             <DefinedRanges
               selectedRange={dateRange}
               ranges={ranges}
@@ -89,59 +93,83 @@ const Menu: React.FunctionComponent<MenuProps> = (props: MenuProps) => {
           </Grid>
           <Divider orientation="vertical" flexItem />
           <Grid>
-            <Grid container sx={{ padding: '20px 70px' }} alignItems="center">
+            <Grid
+              container
+              sx={{ padding: "20px 25px" }}
+              alignItems="center">
               <Grid
                 item
                 sx={{
                   flex: 1,
-                  textAlign: 'center',
+                  textAlign: "center",
                   display: "flex",
                   alignItems: "center",
-                  paddingLeft: "10px",
+                  padding: "5px 15px",
                   gap: "8px",
-                  ...showBorderedDate && {
-                    border: (theme) => `1px solid ${customStyle?.startDateBorderColor || theme.palette.primary.dark}`,
-                    borderRadius: "4px"
-                  }
-                }}
-              >
+                  ...(showBorderedDate && {
+                    border: (theme) =>
+                      `1px solid ${customStyle?.startDateBorderColor ||
+                      theme.palette.primary.main
+                      }`,
+                    borderRadius: "4px",
+                  }),
+                  minWidth: "250px",
+                }}>
                 <CalendarTodayOutlinedIcon sx={{
                   fontSize: "1rem",
                   marginBottom: "2.5px"
                 }} />
-                <Typography variant="subtitle1">
-                  {startDate ? format(startDate, 'dd MMMM yyyy', { locale }) : 'Start Date'}
+                <Typography variant="subtitle1" sx={{ fontWeight: "600" }}>
+                  {startDate
+                    ? format(startDate, "dd MMMM yyyy", { locale })
+                    : "Start Date"}
                 </Typography>
               </Grid>
-              <Grid item sx={{ flex: 1, textAlign: 'center' }}>
-                <ArrowRightAlt color="action" />
+              <Grid item sx={{ flex: 1, textAlign: "center" }}>
+                <ArrowRightAlt
+                  // color="action"
+                  sx={{
+                    color: (theme) => theme.palette.primary.main,
+                    marginTop: "5px",
+                  }}
+                />
               </Grid>
               <Grid
                 item
                 sx={{
                   flex: 1,
-                  textAlign: 'center',
+                  textAlign: "center",
                   display: "flex",
                   alignItems: "center",
-                  paddingLeft: "10px",
+                  padding: "5px 15px",
                   gap: "8px",
-                  ...showBorderedDate && {
-                    border: (theme) => `1px solid ${customStyle?.endDateBorderColor || theme.palette.primary.dark}`,
-                    borderRadius: "4px"
-                  }
-                }}
-              >
+                  ...(showBorderedDate && {
+                    border: (theme) =>
+                      `1px solid ${customStyle?.endDateBorderColor ||
+                      theme.palette.primary.main
+                      }`,
+                    borderRadius: "4px",
+                  }),
+                  minWidth: "250px",
+                }}>
                 <CalendarTodayOutlinedIcon sx={{
                   fontSize: "1rem",
                   marginBottom: "2.5px"
                 }} />
-                <Typography variant="subtitle1">
-                  {endDate ? format(endDate, 'dd MMMM yyyy', { locale }) : 'End Date'}
+                <Typography variant="subtitle1" sx={{ fontWeight: "600" }}>
+                  {endDate
+                    ? format(endDate, "dd MMMM yyyy", { locale })
+                    : "End Date"}
                 </Typography>
               </Grid>
             </Grid>
             <Divider />
-            <Grid container direction="row" justifyContent="center" wrap="nowrap">
+            <Grid
+              container
+              direction="row"
+              justifyContent="center"
+              wrap="nowrap"
+              padding="0 15px">
               <Month
                 {...commonProps}
                 value={firstMonth}
@@ -151,7 +179,7 @@ const Menu: React.FunctionComponent<MenuProps> = (props: MenuProps) => {
                 locale={locale}
               />
               <Divider orientation="vertical" flexItem />
-              <Month
+              < Month
                 {...commonProps}
                 value={secondMonth}
                 setValue={setSecondMonth}
@@ -159,20 +187,30 @@ const Menu: React.FunctionComponent<MenuProps> = (props: MenuProps) => {
                 marker={MARKERS.SECOND_MONTH}
                 locale={locale}
               />
-            </Grid>
-          </Grid>
-        </Grid>
-        {showConfirmSection && (
-          <>
-            <Divider />
-            <Grid container sx={{ padding: "0.7rem 1rem", justifyContent: "flex-end", gap: "10px" }}>
-              <Button variant="outlined" onClick={onCancel}>Cancel</Button>
-              <Button variant="contained" onClick={onSave}>Apply</Button>
-            </Grid>
-          </>
-        )}
-      </Grid>
-    </Paper>
+            </Grid >
+            {showConfirmSection && (
+              <>
+                <Divider />
+                <Grid
+                  container
+                  sx={{
+                    padding: "0.8rem 1rem",
+                    justifyContent: "flex-end",
+                    gap: "10px",
+                  }}>
+                  <Button variant="outlined" onClick={onCancel}>
+                    Cancel
+                  </Button>
+                  <Button variant="contained" onClick={onSave}>
+                    Apply
+                  </Button>
+                </Grid>
+              </>
+            )}
+          </Grid >
+        </Grid >
+      </Grid >
+    </Paper >
   );
 };
 

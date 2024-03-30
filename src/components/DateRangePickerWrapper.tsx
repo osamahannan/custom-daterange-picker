@@ -4,12 +4,13 @@ import { Box } from '@mui/material';
 import DateRangePicker from './DateRangePicker';
 
 // eslint-disable-next-line no-unused-vars
-import { CustomStyle, DateRange, DefinedRange } from '../types';
+import { DateRange, CustomStyle, DefinedRange } from '../types';
 
 export interface DateRangePickerWrapperProps {
   open: boolean;
   toggle: () => void;
   initialDateRange?: DateRange;
+  currentDateRnage?: DateRange | null;
   definedRanges?: DefinedRange[];
   minDate?: Date | string;
   maxDate?: Date | string;
@@ -34,12 +35,18 @@ const DateRangePickerWrapper: React.FunctionComponent<DateRangePickerWrapperProp
     wrapperClassName,
     toggle,
     open,
+    initialDateRange,
+    currentDateRnage
   } = props;
+
+  const [dateRange, setDateRange] = React.useState<DateRange>({ ...initialDateRange });
 
   const handleToggle = () => {
     if (closeOnClickOutside === false) {
       return;
     }
+
+    setDateRange({ ...currentDateRnage })
 
     toggle();
   };
@@ -61,17 +68,17 @@ const DateRangePickerWrapper: React.FunctionComponent<DateRangePickerWrapperProp
               left: 0,
               top: 0,
             }}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyPress}
             onClick={handleToggle}
           />
         )
       }
 
       <Box sx={{ position: 'relative', zIndex: 1 }} className={wrapperClassName} >
-        <DateRangePicker {...props} />
+        <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} {...props} />
       </Box>
     </Box>
   );
 };
 
-export default DateRangePickerWrapper;  
+export default DateRangePickerWrapper;

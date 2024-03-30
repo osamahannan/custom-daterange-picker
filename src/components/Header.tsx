@@ -1,8 +1,15 @@
-import { FormControl, Grid, IconButton, MenuItem, Select, SelectChangeEvent } from '@mui/material';
-import React from 'react';
-import ChevronLeft from '@mui/icons-material/ChevronLeft';
-import ChevronRight from '@mui/icons-material/ChevronRight';
-import { getMonth, getYear, setMonth, setYear } from 'date-fns';
+import {
+  FormControl,
+  Grid,
+  IconButton,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from "@mui/material";
+import React from "react";
+import ChevronLeft from "@mui/icons-material/ChevronLeft";
+import ChevronRight from "@mui/icons-material/ChevronRight";
+import { getMonth, getYear, setMonth, setYear } from "date-fns";
 
 interface HeaderProps {
   date: Date;
@@ -29,11 +36,31 @@ const Header: React.FunctionComponent<HeaderProps> = ({
   prevDisabled,
   onClickNext,
   onClickPrevious,
-  locale
+  locale,
 }: HeaderProps) => {
-  const MONTHS = typeof locale !== 'undefined'
-    ? [...Array(12).keys()].map(d => locale.localize?.month(d, { width: 'abbreviated', context: 'standalone' }))
-    : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+  const MONTHS =
+    typeof locale !== "undefined"
+      ? [...Array(12).keys()].map(
+        (d) =>
+          locale.localize?.month(d, {
+            width: "abbreviated",
+            context: "standalone",
+          })
+      )
+      : [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
 
   const handleMonthChange = (event: SelectChangeEvent<number>) => {
     setDate(setMonth(date, parseInt(event.target.value as string, 10)));
@@ -45,20 +72,23 @@ const Header: React.FunctionComponent<HeaderProps> = ({
 
   return (
     <Grid container justifyContent="space-between" alignItems="center">
-      <Grid item sx={{ padding: '5px' }}>
-        <IconButton
-          sx={{
-            padding: '10px',
-            '&:hover': {
-              background: 'none',
-            },
-          }}
-          disabled={prevDisabled}
-          onClick={onClickPrevious}
-        // size="large"
-        >
-          <ChevronLeft color={prevDisabled ? 'disabled' : 'action'} />
-        </IconButton>
+      <Grid item sx={{ padding: "5px" }}>
+        {!prevDisabled && (
+          <IconButton
+            sx={{
+              // padding: '10px',
+              "&:hover": {
+                backgroundColor: (theme) => theme.palette.primary.light,
+              },
+              backgroundColor: "unset",
+            }}
+            disabled={prevDisabled}
+            onClick={onClickPrevious}
+          // size="large"
+          >
+            <ChevronLeft color={prevDisabled ? "disabled" : "primary"} />
+          </IconButton>
+        )}
       </Grid>
       <Grid item>
         <FormControl variant="standard">
@@ -66,49 +96,108 @@ const Header: React.FunctionComponent<HeaderProps> = ({
             value={getMonth(date)}
             onChange={handleMonthChange}
             MenuProps={{ disablePortal: true }}
-          >
+            sx={{
+              "& .MuiSelect-select": {
+                color: (theme) => `${theme.palette.primary.main} !important`,
+                paddingRight: "10px !important",
+              },
+              "& .MuiSelect-icon": {
+                color: (theme) => theme.palette.primary.main,
+                display: "none"
+              },
+              "&:before": {
+                border: "unset"
+              },
+              "&:after": {
+                border: "none"
+              },
+              "&:hover": {
+                "&:not(.Mui-disabled, .Mui-error)": {
+                  "&:before": {
+                    border: "unset"
+                  }
+                }
+              }
+            }}>
             {MONTHS.map((month, idx) => (
-              <MenuItem key={month} value={idx}>
+              <MenuItem
+                key={month}
+                value={idx}
+                sx={{
+                  "&:hover": {
+                    backgroundColor: (theme) => theme.palette.primary.light
+                  }
+                }}
+              >
                 {month}
               </MenuItem>
             ))}
           </Select>
         </FormControl>
-      </Grid>
-
-      <Grid item>
         <FormControl variant="standard">
           <Select
             value={getYear(date)}
             onChange={handleYearChange}
             MenuProps={{ disablePortal: true }}
-          >
+            sx={{
+              "& .MuiSelect-select": {
+                color: (theme) => `${theme.palette.primary.main} !important`,
+                paddingRight: "0 !important"
+              },
+              "& .MuiSelect-icon": {
+                color: (theme) => theme.palette.primary.main,
+                display: "none"
+              },
+              "&:before": {
+                border: "unset"
+              },
+              "&:after": {
+                border: "none"
+              },
+              "&:hover": {
+                "&:not(.Mui-disabled, .Mui-error)": {
+                  "&:before": {
+                    border: "unset"
+                  }
+                }
+              }
+            }}>
             {generateYears(date, 30).map((year) => (
-              <MenuItem key={year} value={year}>
+              <MenuItem
+                key={year}
+                value={year}
+                sx={{
+                  "&:hover": {
+                    backgroundColor: (theme) => theme.palette.primary.light
+                  }
+                }}
+              >
                 {year}
               </MenuItem>
             ))}
           </Select>
         </FormControl>
+      </Grid >
 
-        {/* <Typography>{format(date, "MMMM YYYY")}</Typography> */}
+      <Grid item sx={{ padding: "5px" }}>
+        {!nextDisabled && (
+          <IconButton
+            sx={{
+              // padding: '10px',
+              "&:hover": {
+                backgroundColor: (theme) => theme.palette.primary.light,
+              },
+              backgroundColor: "unset",
+            }}
+            disabled={nextDisabled}
+            onClick={onClickNext}
+          // size="large"
+          >
+            <ChevronRight color={nextDisabled ? "disabled" : "primary"} />
+          </IconButton>
+        )}
       </Grid>
-      <Grid item sx={{ padding: '5px' }}>
-        <IconButton
-          sx={{
-            padding: '10px',
-            '&:hover': {
-              background: 'none',
-            },
-          }}
-          disabled={nextDisabled}
-          onClick={onClickNext}
-        // size="large"
-        >
-          <ChevronRight color={nextDisabled ? 'disabled' : 'action'} />
-        </IconButton>
-      </Grid>
-    </Grid>
+    </Grid >
   );
 };
 

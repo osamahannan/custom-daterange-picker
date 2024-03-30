@@ -44,8 +44,13 @@ const Day: React.FunctionComponent<DayProps> = ({
             '&:hover': {
               backgroundColor: (theme) => theme.palette.primary.dark,
             },
-            backgroundColor: (theme) => theme.palette.primary.dark,
-          } : {}),
+            backgroundColor: (theme) => theme.palette.primary.main,
+          } : {
+            backgroundColor: "unset",
+            "&:hover": {
+              backgroundColor: (theme) => theme.palette.primary.light,
+            }
+          }),
         }}
         disabled={disabled}
         onClick={onClick}
@@ -58,13 +63,15 @@ const Day: React.FunctionComponent<DayProps> = ({
             color: (theme) => !disabled
               ? (filled ? theme.palette.primary.contrastText : theme.palette.text.primary)
               : theme.palette.text.secondary,
+            fontSize: "12px",
+            fontWeight: "500"
           }}
           variant="body2"
         >
           {value}
         </Typography>
       </IconButton>
-    </Box>
+    </Box >
   );
 };
 

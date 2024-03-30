@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { List, ListItemButton, ListItemText } from '@mui/material';
 import { isSameDay } from 'date-fns';
 import { CustomStyle, DateRange, DefinedRange } from '../types';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import ArrowRightOutlinedIcon from '@mui/icons-material/ArrowRightOutlined';
 
 type DefinedRangesProps = {
   // eslint-disable-next-line no-unused-vars
@@ -26,7 +26,7 @@ const DefinedRanges: React.FunctionComponent<DefinedRangesProps> = ({
   ranges,
   setRange,
   selectedRange,
-  labelIcon = <KeyboardArrowRightIcon />,
+  labelIcon = <ArrowRightOutlinedIcon sx={{ fontSize: "25px", color: (theme) => theme.palette.primary.main }} />,
   customStyle
 }: DefinedRangesProps) => (
   <List>
@@ -37,13 +37,14 @@ const DefinedRanges: React.FunctionComponent<DefinedRangesProps> = ({
         sx={{
           backgroundColor: customStyle?.labelBgColor || "",
           "&:hover": {
-            background: customStyle?.labelBgOnHover || ""
+            background: (theme) => customStyle?.labelBgOnHover || theme.palette.primary.light
           },
+          paddingRight: "5px",
           ...isSameRange(range, selectedRange) && {
             backgroundColor: (theme) => customStyle?.activeLabelBgColor || theme.palette.primary.dark,
-            color: customStyle?.labelColor || 'primary.contrastText',
+            color: customStyle?.activeLableColor || 'primary.contrastText',
             '&:hover': {
-              color: 'inherit'
+              backgroundColor: (theme) => customStyle?.activeLabelBgColor || theme.palette.primary.dark
             },
           }
         }}
@@ -59,7 +60,8 @@ const DefinedRanges: React.FunctionComponent<DefinedRangesProps> = ({
               textWrap: "nowrap",
               alignItems: "center",
               justifyContent: "space-between",
-              minWidth: "100px"
+              minWidth: "100px",
+              fontSize: "1rem"
             },
           }}
         >

@@ -22,10 +22,12 @@ export type DefinedRange = {
   startDate: Date;
   endDate: Date;
   label: string;
+  id?: string;
 };
 
 export interface CustomStyle {
   labelColor?: string;
+  activeLableColor?: string;
   labelBgColor?: string;
   activeLabelBgColor?: string;
   labelBgOnHover?: string;

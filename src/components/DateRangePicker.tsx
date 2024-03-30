@@ -11,9 +11,12 @@ import { Marker, MARKERS } from './Markers';
 interface DateRangePickerProps {
   open: boolean;
   initialDateRange?: DateRange;
+  currentDateRnage?: DateRange | null;
   definedRanges?: DefinedRange[];
   minDate?: Date | string;
   maxDate?: Date | string;
+  setDateRange: (range: DateRange) => void;
+  dateRange: DateRange;
   // eslint-disable-next-line no-unused-vars
   onChange: (dateRange: DateRange) => void;
   locale?: Locale;
@@ -34,6 +37,7 @@ const DateRangePicker: React.FunctionComponent<DateRangePickerProps> = (
     open,
     onChange,
     initialDateRange,
+    currentDateRnage,
     minDate,
     maxDate,
     definedRanges = getDefaultRanges(new Date(), props.locale),
@@ -43,7 +47,9 @@ const DateRangePicker: React.FunctionComponent<DateRangePickerProps> = (
     onCancel,
     customStyle,
     showConfirmSection,
-    showBorderedDate
+    showBorderedDate,
+    dateRange,
+    setDateRange
   } = props;
 
   const minDateValid = parseOptionalDate(minDate, addYears(today, -10));
@@ -54,7 +60,6 @@ const DateRangePicker: React.FunctionComponent<DateRangePickerProps> = (
     maxDateValid,
   );
 
-  const [dateRange, setDateRange] = React.useState<DateRange>({ ...initialDateRange });
   const [hoverDay, setHoverDay] = React.useState<Date>();
   const [firstMonth, setFirstMonth] = React.useState<Date>(intialFirstMonth || today);
   const [secondMonth, setSecondMonth] = React.useState<Date>(
@@ -145,6 +150,11 @@ const DateRangePicker: React.FunctionComponent<DateRangePickerProps> = (
     onMonthNavigate,
   };
 
+  const handleCancel = () => {
+    setDateRange({ ...currentDateRnage })
+    !!onCancel && onCancel();
+  }
+
   return open ? (
     <Menu
       dateRange={dateRange}
@@ -161,7 +171,7 @@ const DateRangePicker: React.FunctionComponent<DateRangePickerProps> = (
       locale={locale}
       labelIcon={labelIcon}
       onSave={onSave}
-      onCancel={onCancel}
+      onCancel={handleCancel}
       customStyle={customStyle}
       showConfirmSection={showConfirmSection}
       showBorderedDate={showBorderedDate}

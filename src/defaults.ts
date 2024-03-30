@@ -9,6 +9,7 @@ import {
   startOfYear,
   endOfYear,
   addYears,
+  subDays,
 } from "date-fns";
 
 // eslint-disable-next-line no-unused-vars
@@ -42,6 +43,21 @@ export const getDefaultRanges = (
     label: "Last 7 Days",
     startDate: addWeeks(date, -1),
     endDate: date,
+  },
+  {
+    label: "Last 30 Days",
+    startDate: subDays(date, 30),
+    endDate: date,
+  },
+  {
+    label: "Last 90 Days",
+    startDate: subDays(date, 90),
+    endDate: date,
+  },
+  {
+    label: "Year to date",
+    startDate: date,
+    endDate: endOfYear(date),
   },
   {
     label: "This Month",
